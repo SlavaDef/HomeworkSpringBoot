@@ -1,33 +1,40 @@
-package com.homework.demo.myNote;
+package com.homework.demo.myNote.servise;
+
+import com.homework.demo.myNote.entity.Note;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+import org.springframework.stereotype.Service;
 
 import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+@Service
 public class NoteMapService {
 
-    private final Map<Long, Note> noteMap;
+    private Map<Long, Note> noteMap;
 
     private final Scanner scanner = new Scanner(System.in);
 
-    public NoteMapService() {
+    @PostConstruct
+    public void inIt() {
         noteMap = new HashMap<>();
     }
 
 
-    Map<Long, Note> listAll() {
+    public Map<Long, Note> listAll() {
         return noteMap;
 
     }
 
-    Note add(Note note) {
+    public Note add(Note note) {
         note.setId(noteMap.size() + 1L);
         noteMap.put(note.getId(), note);
         return note;
     }
 
-    void deleteById(long id) {
+    public void deleteById(long id) {
         Note note = noteMap.get(id);
         if (note == null) {
             throw new EmptyStackException();
@@ -36,21 +43,25 @@ public class NoteMapService {
         }
     }
 
-    void update(Note note) {
+    public void update(Note note) {
         if (noteMap.containsKey(note.getId())) {
             note.setTitle(scanner.next());
             note.setContent(scanner.next());
-            scanner.close();
         } else throw new EmptyStackException();
     }
 
-    Note getById(long id) {
+    public Note getById(long id) {
         Note note = noteMap.get(id);
 
         if (note == null) {
             throw new EmptyStackException();
         }
         return note;
+    }
+
+    @PreDestroy
+    public void close() {
+        scanner.close();
     }
 
 }

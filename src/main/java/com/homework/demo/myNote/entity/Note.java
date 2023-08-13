@@ -1,10 +1,11 @@
-package com.homework.demo.myNote;
+package com.homework.demo.myNote.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.stereotype.Component;
 
 @AllArgsConstructor
 @Data

@@ -1,6 +1,8 @@
-package com.homework.demo.myNote;
+package com.homework.demo.myNote.servise;
 
-import org.hibernate.annotations.NotFound;
+import com.homework.demo.myNote.entity.Note;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,7 +15,12 @@ public class NoteService {
 
     private final Scanner scanner = new Scanner(System.in);
 
-    private final List<Note> notes = new ArrayList<>();
+    private  List<Note> notes;
+
+    @PostConstruct
+    public void inIt(){
+        notes = new ArrayList<>();
+    }
 
     public List<Note> listAll() {
         return notes;
@@ -25,7 +32,7 @@ public class NoteService {
         return note;
     }
 
-    void deleteById(long id) {
+   public void deleteById(long id) {
         Note note = notes.get((int) id);
         if (note == null) {
             throw new EmptyStackException();
@@ -33,19 +40,23 @@ public class NoteService {
             notes.remove(Math.toIntExact(id));
     }
 
-    void update(Note note) {
+  public   void update(Note note) {
         if (note != null) {
             note.setTitle(scanner.next());
             note.setContent(scanner.next());
-            scanner.close();
         } else throw new EmptyStackException();
     }
 
-    Note getById(long id) {
+    public Note getById(long id) {
         Note note = notes.get(Math.toIntExact(id));
         if (note == null) {
             throw new EmptyStackException();
         }
         return note;
+    }
+
+    @PreDestroy
+    public void close(){
+        scanner.close();
     }
 }
