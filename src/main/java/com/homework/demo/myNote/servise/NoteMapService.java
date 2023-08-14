@@ -15,8 +15,6 @@ public class NoteMapService {
 
     private Map<Long, Note> noteMap;
 
-    private final Scanner scanner = new Scanner(System.in);
-
     @PostConstruct
     public void inIt() {
         noteMap = new HashMap<>();
@@ -45,8 +43,7 @@ public class NoteMapService {
 
     public void update(Note note) {
         if (noteMap.containsKey(note.getId())) {
-            note.setTitle(scanner.next());
-            note.setContent(scanner.next());
+            noteMap.replace(note.getId(), note);
         } else throw new EmptyStackException();
     }
 
@@ -57,11 +54,6 @@ public class NoteMapService {
             throw new EmptyStackException();
         }
         return note;
-    }
-
-    @PreDestroy
-    public void close() {
-        scanner.close();
     }
 
 }

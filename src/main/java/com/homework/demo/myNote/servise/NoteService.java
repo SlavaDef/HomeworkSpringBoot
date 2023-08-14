@@ -40,10 +40,11 @@ public class NoteService {
             notes.remove(Math.toIntExact(id));
     }
 
-  public   void update(Note note) {
+  public void update(Note note) {
         if (note != null) {
             note.setTitle(scanner.next());
             note.setContent(scanner.next());
+            scanner.close();
         } else throw new EmptyStackException();
     }
 
@@ -53,10 +54,5 @@ public class NoteService {
             throw new EmptyStackException();
         }
         return note;
-    }
-
-    @PreDestroy
-    public void close(){
-        scanner.close();
     }
 }
